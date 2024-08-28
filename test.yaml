@@ -1,20 +1,8 @@
 ---
-- name: Ping a collection of IP addresses or hosts
-  hosts: localhost
+- name: Ping a specific group of hosts
+  hosts: "{{ target_group }}"  # Variable pour définir le groupe d'hôtes
   gather_facts: no
-  vars:
-    targets: "{{ inventory_group }}"  # Variable pour la collection d'IP ou d'hôtes
 
   tasks:
-    - name: Ping each target in the collection
+    - name: Ping all hosts in the selected group
       ansible.builtin.ping:
-        data: "Hello"
-      delegate_to: "{{ item }}"
-      ignore_errors: yes
-      loop: "{{ targets }}"
-
-    - name: Check if the ping was successful
-      debug:
-        msg: "Ping to {{ item }} was successful."
-      when: ping_result is succeeded
-      loop: "{{ targets }}"
