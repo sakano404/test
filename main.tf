@@ -1,21 +1,20 @@
 # Définition des variables
-variable "target_ip" {
-  description = "IP address to ping"
+variable "message" {
+  description = "The message to echo"
   type        = string
 }
 
 # Utilisation de la ressource null pour exécuter une commande locale
-resource "null_resource" "ping_ip" {
+resource "null_resource" "echo_message" {
   provisioner "local-exec" {
     command = <<EOT
-      echo "Pinging ${var.target_ip}..."
-      ping -c 4 ${var.target_ip}  # Effectue un ping 4 fois
+      echo "${var.message}"
     EOT
   }
 }
 
-# Sortie de l'IP pour vérification
-output "ping_target_ip" {
-  description = "The IP address that was pinged"
-  value       = var.target_ip
+# Sortie du message pour vérification
+output "echoed_message" {
+  description = "The message that was echoed"
+  value       = var.message
 }
