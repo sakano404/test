@@ -1,18 +1,20 @@
 ---
-- name: Ping an IP address
+- name: Ping a collection of IP addresses or hosts
   hosts: localhost
   gather_facts: no
   vars:
-    ip_address: "{{ target_ip }}"  # La variable ip_address est définie en utilisant le paramètre target_ip
+    targets: "{{ inventory_group }}"  # Variable pour la collection d'IP ou d'hôtes
 
   tasks:
-    - name: Ping the specified IP address
+    - name: Ping each target in the collection
       ansible.builtin.ping:
         data: "Hello"
-      delegate_to: "{{ ip_address }}"
+      delegate_to: "{{ item }}"
       ignore_errors: yes
+      loop: "{{ targets }}"
 
     - name: Check if the ping was successful
       debug:
-        msg: "Ping to {{ ip_address }} was successful."
+        msg: "Ping to {{ item }} was successful."
       when: ping_result is succeeded
+      loop: "{{ targets }}"
