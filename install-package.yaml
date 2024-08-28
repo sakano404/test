@@ -1,9 +1,10 @@
 ---
-- name: Install vim
+- name: Install packages
   hosts: "{{ target_group }}"
   become: yes
   tasks:
-    - name: Install vim package
+    - name: Install specified packages
       package:
-        name: "{{ packages }}"
+        name: "{{ item }}"
         state: present
+      with_items: "{{ packages }}"
