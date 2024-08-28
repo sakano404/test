@@ -1,0 +1,9 @@
+---
+- name: Update all packages
+  hosts: "{{ target_group }}"
+  become: yes
+  tasks:
+    - name: Update all packages to the latest version
+      package:
+        name: "*"
+        state: latest
