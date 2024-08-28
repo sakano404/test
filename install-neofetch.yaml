@@ -1,0 +1,9 @@
+---
+- name: Install vim
+  hosts: "{{ target_group }}"
+  become: yes
+  tasks:
+    - name: Install vim package
+      package:
+        name: neofetch
+        state: present
